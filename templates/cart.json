@@ -38,10 +38,26 @@
         "padding_top": 20,
         "padding_bottom": 40
       }
+    },
+    "17543624203c6e88fc": {
+      "type": "apps",
+      "blocks": {
+        "grab_express_dashboard_map_widget_VQyWqB": {
+          "type": "shopify://apps/grab-express-dashboard/blocks/map-widget/4749b443-4a58-4179-8e63-6386ae8a60ea",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "grab_express_dashboard_map_widget_VQyWqB"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "cart-items",
     "cart-footer",
+    "17543624203c6e88fc"
   ]
 }
