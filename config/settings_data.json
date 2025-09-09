@@ -144,7 +144,7 @@
         "settings": {
           "price_trigger": 500,
           "tagToTrigger": "gwp-eligible",
-          "free_item": "chronoloom-bracelet",
+          "free_item": "cloak-of-idle-glamour",
           "variantId": "",
           "giftImg": "shopify://shop_images/e9959a30-97a4-41bc-9d4a-b40ce44078c7.jpg",
           "pDetails": true,
