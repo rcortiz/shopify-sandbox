@@ -31,8 +31,8 @@
       </div>
     {% endif %}
 
-    {% if section.settings.popup_description != blank %}
-      <p class="gwp-description">{{ section.settings.popup_description }}</p>
+   {% if section.settings.popup_description != blank %}
+      <p class="gwp-description" id="gwp-description">{{ section.settings.popup_description }}</p>
     {% endif %}
 
     <form class="GWPform" method="post" action="/cart/add">
