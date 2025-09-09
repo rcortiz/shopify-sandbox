@@ -24,10 +24,11 @@
                width="200"
                height="auto">
         {% endif %}
-        <div class="gwp-price-container">
-          <p class="gwp-original-price">{{ section.settings.gift_original_price }}</p>
-          <p class="gwp-free-price">Free</p>
-        </div>
+      <div class="gwp-price-container">
+        <p class="gwp-original-price gwp-strike">{{ gift_variant.price | money }}</p>
+        <p class="gwp-free">Free</p>
+      </div>
+      <p class="gwp-note">*Discount applied at checkout</p>
       </div>
     {% endif %}
 
@@ -199,6 +200,13 @@
   .gwp-free {
     font-weight: 600;
     color: #28a745;
+  }
+
+  .gwp-note {
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+    margin-top: 5px;
   }
 
   .GWPform {
