@@ -283,14 +283,14 @@
   }
 
   // Function to check if any product in cart has a matching tag
-  function hasTriggerTag(cartData, tag) {
+  {% comment %} function hasTriggerTag(cartData, tag) {
     if (!tag) return false;
     return cartData.items.some(item => {
       return item.product_has_only_default_variant 
         ? item.product_description?.includes(tag) 
         : item.product_description?.includes(tag);
     });
-  }
+  } {% endcomment %}
 
   // Function to check the cart value and show popup if necessary
   function checkCartValue() {
@@ -310,7 +310,7 @@
 
       const hasTagTrigger = hasTriggerTag(cartData, "{{ section.settings.tagToTrigger }}");
 
-      if (cartValue >= gwpConfig.cartThreshold || hasTagTrigger) && !popupShown && !hasZeroPrice) {
+      if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
         console.log('GWP conditions met, showing popup');
         showPopup();
         {% comment %} sessionStorage.setItem('gwp-popup-shown', 'true'); {% endcomment %}
