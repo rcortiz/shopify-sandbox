@@ -14,15 +14,21 @@
     {% assign gift_variant = gift_product.first_available_variant %}
 
     {% if section.settings.giftImg != blank %}
-      <img loading="lazy" class="gwp-gift-img" src="{{ section.settings.giftImg | image_url: width: 200 }}">
-    {% elsif section.settings.pDetails %}
-      {% if gift_product != blank %}
-        <p class="gwp-pt">{{ gift_product.title }}</p>
-        <span class="gwp-price">
-          <p class="gwp-pr gwp-strike gwp-price">{{ section.settings.gift_original_price }}</p>
-          <p class="gwp-pr gwp-free">Free</p>
-        </span>
-      {% endif %}
+   <div class="gwp-product-details">
+        <p class="gwp-product-title">{{ gift_product.title }}</p>
+        {% if gift_product.featured_image %}
+          <img loading="lazy" 
+               class="gwp-gift-img" 
+               src="{{ gift_product.featured_image | image_url: width: 200 }}" 
+               alt="{{ gift_product.title }}"
+               width="200"
+               height="auto">
+        {% endif %}
+        <div class="gwp-price-container">
+          <p class="gwp-original-price">{{ section.settings.gift_original_price }}</p>
+          <p class="gwp-free-price">Free</p>
+        </div>
+      </div>
     {% endif %}
 
     {% if section.settings.popup_description != blank %}
