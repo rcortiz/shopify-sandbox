@@ -142,7 +142,7 @@
       "gwp": {
         "type": "gwp",
         "settings": {
-          "price_trigger": 500,
+          "price_trigger": 100,
           "tagToTrigger": "",
           "free_item": "chronoloom-bracelet",
           "variantId": "",
