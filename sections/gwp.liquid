@@ -232,12 +232,11 @@
 
   // Function to calculate the total value of items in the cart (in pesos)
   function calculateCartValue(cartData) {
-   let totalValue = 0;
-  cartData.items.forEach(item => {
-    totalValue += item.price * item.quantity;
-  });
-  // Return value directly as pesos (no division by 100)
-  return totalValue;
+    let totalValue = 0;
+    cartData.items.forEach(item => {
+      totalValue += (item.price / 100) * item.quantity; // convert to pesos
+    });
+    return totalValue;
   }
 
   // Function to show the popup
