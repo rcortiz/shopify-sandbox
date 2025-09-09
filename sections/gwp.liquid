@@ -25,23 +25,33 @@
                height="auto">
         {% endif %}
         <div class="gwp-price-container">
-          <p class="gwp-original-price gwp-strike">{{ section.settings.gift_original_price }}</p>
-          <p class="gwp-free-price gwp-free">Free</p>
+          <p class="gwp-original-price">{{ section.settings.gift_original_price }}</p>
+          <p class="gwp-free-price">Free</p>
         </div>
       </div>
     {% endif %}
 
-   {% if section.settings.popup_description != blank %}
-      <p class="gwp-description" id="gwp-description">{{ section.settings.popup_description }}</p>
+    {% if section.settings.popup_description != blank %}
+      <p class="gwp-description">{{ section.settings.popup_description }}</p>
     {% endif %}
+
     <form class="GWPform" method="post" action="/cart/add">
       <input name="id" value="{{ section.settings.variantId | default: gift_variant.id }}" type="hidden">
+      {% if section.settings.confetti %}
         <input id="submitbutton"
                onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();"
                class="gwp-button"
                name="add"
                value="{{ section.settings.button_text }}"
                type="submit">
+      {% else %}
+        <input id="submitbutton"
+               onclick="this.disabled = true; this.form.submit();"
+               class="gwp-button"
+               name="add"
+               value="{{ section.settings.button_text }}"
+               type="submit">
+      {% endif %}
     </form>
   </div>
 
@@ -186,12 +196,6 @@
     margin-top: 5px;
   }
 
-  .gwp-price-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   .gwp-free {
     font-weight: 600;
     color: #28a745;
@@ -238,11 +242,12 @@
 
   // Function to calculate the total value of items in the cart (in pesos)
   function calculateCartValue(cartData) {
-    let totalValue = 0;
-    cartData.items.forEach(item => {
-      totalValue += (item.price / 100) * item.quantity; // convert to pesos
-    });
-    return totalValue;
+   let totalValue = 0;
+  cartData.items.forEach(item => {
+    totalValue += item.price * item.quantity;
+  });
+  // Return value directly as pesos (no division by 100)
+  return totalValue;
   }
 
   // Function to show the popup
@@ -383,7 +388,6 @@
       "step": 50,
       "unit": "₱",
       "label": "Cart Value Trigger",
-      "info": "If the value is 0 the popup is disabled",
       "default": 0
     },
     {
