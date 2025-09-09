@@ -25,11 +25,10 @@
                height="auto">
         {% endif %}
         <div class="gwp-price-container">
-        <p class="gwp-original-price gwp-strike">
-          {{ gift_variant.price | money }}
-        </p>
-        <p class="gwp-free">Free</p>
+          <p class="gwp-original-price gwp-strike">{{ gift_variant.price | money }}</p>
+          <p class="gwp-free">Free</p>
         </div>
+        <p class="gwp-note">*Discount applied at checkout</p>
       </div>
     {% endif %}
 
