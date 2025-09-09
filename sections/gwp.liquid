@@ -264,12 +264,13 @@
       overlay.style.display = 'none';
       popup.style.display = 'none';
     }
-    sessionStorage.setItem('gwp-popup-shown', 'true');
+    {% comment %} sessionStorage.setItem('gwp-popup-shown', 'true'); {% endcomment %}
   }
 
   // Function to check if popup was already shown
   function wasPopupShown() {
-    return sessionStorage.getItem('gwp-popup-shown') === 'true';
+    {% comment %} return sessionStorage.getItem('gwp-popup-shown') === 'true'; {% endcomment %}
+     return false;
   }
 
   // Function to check the cart value and show popup if necessary
@@ -291,7 +292,7 @@
       if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
         console.log('GWP conditions met, showing popup');
         showPopup();
-        sessionStorage.setItem('gwp-popup-shown', 'true');
+        {% comment %} sessionStorage.setItem('gwp-popup-shown', 'true'); {% endcomment %}
       } else {
         console.log('GWP conditions not met:', {
           thresholdMet: cartValue >= gwpConfig.cartThreshold,
