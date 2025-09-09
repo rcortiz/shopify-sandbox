@@ -1,54 +1,54 @@
-{% if section.settings.enable_gwp and section.settings.gift_product %}
-
-<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-
-<div class="gwp-overlay" id="gwp-overlay" style="display: none;"></div>
-<div class="gwp-popup" id="gwp-popup" style="display: none;">
-  <span class="gwp-popup-close" onclick="closePopup()">✕</span>
-  <span class="gwp-title">
-    <p>{{ section.settings.popup_title }}</p>
-  </span>
-  
-  {% assign gift_product = section.settings.gift_product %}
-  {% assign gift_variant = gift_product.selected_or_first_available_variant %}
-  
-  <img loading="lazy" 
-       class="gwp-gift-img" 
-       src="{{ gift_product.featured_image | default: 'placeholder.png' | image_url: width: 200 }}"
-       alt="{{ gift_product.title }}">
-
-  <p class="gwp-pt">{{ gift_product.title }}</p>
-  
-  <span class="gwp-price">
-    <p class="gwp-pr gwp-strike gwp-price">{{ section.settings.gift_original_price }}</p>
-    <p class="gwp-pr gwp-free">Free</p>
-  </span>
-
-  {% if section.settings.popup_description != blank %}
-    <p class="gwp-description">{{ section.settings.popup_description }}</p>
+{% if section.settings.price_trigger != 0 %}
+  {% if section.settings.confetti %}
+    <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   {% endif %}
 
-  <form class="GWPform" method="post" action="/cart/add">
-    <input name="id" value="{{ gift_variant.id }}" type="hidden">
-    
-    {% if section.settings.enable_confetti %}
-      <input id="submitbutton" 
-             onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();" 
-             class="gwp-button" 
-             name="add" 
-             value="{{ section.settings.button_text }}" 
-             type="submit">
-    {% else %}
-      <input id="submitbutton" 
-             onclick="this.disabled = true; this.form.submit();" 
-             class="gwp-button" 
-             name="add" 
-             value="{{ section.settings.button_text }}" 
-             type="submit">
-    {% endif %}
-  </form>
-</div>
+  <div class="gwp-overlay" id="gwp-overlay"></div>
+  <div class="gwp-popup" id="gwp-popup">
+    <span class="gwp-popup-close" onclick="closePopup()">✕</span>
+    <span class="gwp-title">
+      <p>{{ section.settings.text }}</p>
+    </span>
 
+    {% assign gift_product = section.settings.free_item %}
+    {% assign gift_variant = all_products[section.settings.free_item].first_available_variant %}
+
+    {% if section.settings.giftImg != blank %}
+      <img loading="lazy" class="gwp-gift-img" src="{{ section.settings.giftImg | image_url: width: 200 }}">
+    {% elsif section.settings.pDetails %}
+      {% if gift_product != blank %}
+        <p class="gwp-pt">{{ gift_product.title }}</p>
+        <span class="gwp-price">
+          <p class="gwp-pr gwp-strike gwp-price">{{ section.settings.gift_original_price }}</p>
+          <p class="gwp-pr gwp-free">Free</p>
+        </span>
+      {% endif %}
+    {% endif %}
+
+    {% if section.settings.popup_description != blank %}
+      <p class="gwp-description">{{ section.settings.popup_description }}</p>
+    {% endif %}
+
+    <form class="GWPform" method="post" action="/cart/add">
+      <input name="id" value="{{ section.settings.variantId | default: gift_variant.id }}" type="hidden">
+      {% if section.settings.confetti %}
+        <input id="submitbutton"
+               onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();"
+               class="gwp-button"
+               name="add"
+               value="{{ section.settings.button_text }}"
+               type="submit">
+      {% else %}
+        <input id="submitbutton"
+               onclick="this.disabled = true; this.form.submit();"
+               class="gwp-button"
+               name="add"
+               value="{{ section.settings.button_text }}"
+               type="submit">
+      {% endif %}
+    </form>
+  </div>
+  
 <style>
   :root {
     --gwp-popup-bg: {{ section.settings.popup_bg_color | default: '#ffffff' }};
