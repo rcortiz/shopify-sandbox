@@ -24,16 +24,15 @@
                width="200"
                height="auto">
         {% endif %}
-      <div class="gwp-price-container">
-        <p class="gwp-original-price gwp-strike">{{ gift_variant.price | money }}</p>
-        <p class="gwp-free">Free</p>
-      </div>
-      <p class="gwp-note">*Discount applied at checkout</p>
+        <div class="gwp-price-container">
+          <p class="gwp-original-price gwp-strike">{{ gift_variant.price | money }}</p>
+          <p class="gwp-free">Free</p>
+        </div>
       </div>
     {% endif %}
 
     {% if section.settings.popup_description != blank %}
-      <p class="gwp-description">{{ section.settings.popup_description }}</p>
+      <p class="gwp-note">{{ section.settings.popup_description }}</p>
     {% endif %}
 
     <form class="GWPform" method="post" action="/cart/add">
@@ -450,7 +449,7 @@
       "type": "text",
       "id": "popup_description",
       "label": "Popup Description",
-      "default": "This gift will be added to your cart for free once you redeem."
+      "default": "*Discount applied at checkout"
     },
     {
       "type": "text",
