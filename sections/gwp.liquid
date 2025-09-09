@@ -25,10 +25,9 @@
                height="auto">
         {% endif %}
         <div class="gwp-price-container">
-          <p class="gwp-original-price gwp-strike">{{ gift_variant.price | money }}</p>
-          <p class="gwp-free">Free</p>
+          <p class="gwp-original-price gwp-strike">{{ section.settings.gift_original_price }}</p>
+          <p class="gwp-free-price gwp-free">Free</p>
         </div>
-        <p class="gwp-note">*Discount applied at checkout</p>
       </div>
     {% endif %}
 
@@ -198,13 +197,6 @@
     color: #28a745;
   }
 
-  .gwp-note {
-    font-size: 12px;
-    text-align: center;
-    color: #666;
-    margin-top: 5px;
-  }
-
   .GWPform {
     text-align: center;
   }
@@ -282,16 +274,6 @@
      return false;
   }
 
-  // Function to check if any product in cart has a matching tag
-  {% comment %} function hasTriggerTag(cartData, tag) {
-    if (!tag) return false;
-    return cartData.items.some(item => {
-      return item.product_has_only_default_variant 
-        ? item.product_description?.includes(tag) 
-        : item.product_description?.includes(tag);
-    });
-  } {% endcomment %}
-
   // Function to check the cart value and show popup if necessary
   function checkCartValue() {
     console.log('Checking GWP cart value...');
@@ -307,8 +289,6 @@
       console.log('GWP Has Zero Price Product:', hasZeroPrice);
       console.log('GWP Popup Already Shown:', popupShown);
       console.log('GWP Threshold (Pesos):', gwpConfig.cartThreshold);
-
-      const hasTagTrigger = hasTriggerTag(cartData, "{{ section.settings.tagToTrigger }}");
 
       if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
         console.log('GWP conditions met, showing popup');
@@ -437,6 +417,12 @@
       "id": "pDetails",
       "label": "Show Product Details",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "gift_original_price",
+      "label": "Gift Original Price",
+      "default": "₱0.00"
     },
     {
       "type": "header",
