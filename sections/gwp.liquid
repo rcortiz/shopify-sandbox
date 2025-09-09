@@ -366,13 +366,34 @@
 
 {% schema %}
 {
-  "name": "Gift With Purchase",
+  "name": "GWP Popup",
   "tag": "section",
   "class": "gwp-section",
   "settings": [
     {
       "type": "header",
-      "content": "General Settings"
+      "content": "Popup Trigger"
+    },
+    {
+      "type": "range",
+      "id": "price_trigger",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "₱",
+      "label": "Price",
+      "default": 0,
+      "info": "The store currency applies. If the value is 0 the popup is disabled."
+    },
+    {
+      "type": "text",
+      "id": "tagToTrigger",
+      "label": "Product Tag to Trigger Popup",
+      "info": "Specify the tag that products must have to trigger the gwp popup. For example, if you set this to 'gwp-eligible', any product tagged with 'gwp-eligible' will trigger the popup when the cart value meets the specified price trigger."
+    },
+    {
+      "type": "header",
+      "content": "Gift Item",
     },
     {
       "type": "checkbox",
