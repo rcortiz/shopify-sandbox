@@ -396,175 +396,87 @@
       "content": "Gift Item",
     },
     {
+      "type": "product",
+      "id": "free_item",
+      "label": "product"
+    },
+    {
       "type": "checkbox",
-      "id": "enable_gwp",
-      "label": "Enable Gift With Purchase",
+      "id": "vSelector",
+      "default": false,
+      "label": "Show a variant selector",
+      "info": "Let customers select their gift if the product has multiple variants."
+    },
+    {
+      "type": "text",
+      "id": "variantId",
+      "label": "Specify a variant ID",
+      "info": "Add a specific variant ID to use as a gift. Use only if you want to give as a gift a specific variant otherwise leave empty."
+    },
+    {
+      "type": "header",
+      "content": "Popup settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "confetti",
+      "label": "Show confetti on button click?",
       "default": true
     },
     {
-      "type": "number",
-      "id": "cart_threshold",
-      "label": "Cart Threshold (in pesos)",
-      "default": 500,
-      "info": "Minimum cart value to trigger GWP popup (e.g., 500 = ₱500.00)"
-    },
-    {
-      "type": "number",
-      "id": "delay_time",
-      "label": "Popup Delay (milliseconds)",
-      "default": 2500,
-      "info": "Delay before showing popup after user interaction"
-    },
-    {
-      "type": "header",
-      "content": "Gift Product Settings"
-    },
-    {
-      "type": "product",
-      "id": "gift_product",
-      "label": "Gift Product"
+      "type": "text",
+      "id": "text",
+      "label": "Popup Text",
+      "default": "<p> Congratulations! You unlocked a free gift.</p>"
     },
     {
       "type": "text",
-      "id": "gift_original_price",
-      "label": "Original Price Display",
-      "default": "₱100.00",
-      "info": "Price to show as crossed out"
-    },
-    {
-      "type": "header",
-      "content": "Popup Content"
-    },
-    {
-      "type": "text",
-      "id": "popup_title",
-      "label": "Popup Title",
-      "default": "🎉 Congratulations! You unlocked a free gift."
-    },
-    {
-      "type": "text",
-      "id": "button_text",
+      "id": "buttonText",
       "label": "Button Text",
       "default": "REDEEM FREE GIFT"
     },
     {
-      "type": "textarea",
-      "id": "popup_description",
-      "label": "Additional Description",
-      "placeholder": "Optional description text"
+      "type": "checkbox",
+      "id": "oncepersession",
+      "label": "Show popup once per session?",
+      "info": "If false, the popup will show again in the same session once the conditions are met even if the customer has closed the popup once.",
+      "default": true
     },
     {
-      "type": "header",
-      "content": "Popup Styling"
+      "type": "image_picker",
+      "id": "giftImg",
+      "label": "Gift Image"
     },
     {
-      "type": "color",
-      "id": "popup_bg_color",
-      "label": "Popup Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "popup_text_color",
-      "label": "Text Color",
-      "default": "#000000"
+      "type": "checkbox",
+      "id": "pDetails",
+      "label": "Show product details",
+      "info": "It shows the product image, title and crossed out price",
+      "default": true
     },
     {
       "type": "color",
-      "id": "button_bg_color",
+      "id": "butCol",
       "label": "Button Background Color",
       "default": "#000000"
     },
-    {
+        {
       "type": "color",
-      "id": "button_text_color",
+      "id": "butTextCol",
       "label": "Button Text Color",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "button_hover_bg",
-      "label": "Button Hover Background",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "button_hover_text",
-      "label": "Button Hover Text Color",
+      "id": "HovbutCol",
+      "label": "Button Hover Background Color",
       "default": "#000000"
     },
     {
       "type": "color",
-      "id": "overlay_color",
-      "label": "Overlay Background Color",
-      "default": "rgba(0, 0, 0, 0.5)"
-    },
-    {
-      "type": "header",
-      "content": "Advanced Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_confetti",
-      "label": "Enable Confetti Animation",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "require_user_interaction",
-      "label": "Require User Interaction",
-      "default": true,
-      "info": "Only show popup after user clicks, scrolls, or presses a key"
-    },
-    {
-      "type": "select",
-      "id": "popup_position",
-      "label": "Popup Position",
-      "options": [
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "top",
-          "label": "Top"
-        },
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "range",
-      "id": "popup_border_radius",
-      "min": 0,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Border Radius",
-      "default": 5
-    },
-    {
-      "type": "range",
-      "id": "popup_min_width",
-      "min": 200,
-      "max": 500,
-      "step": 25,
-      "unit": "px",
-      "label": "Minimum Width",
-      "default": 225
-    }
-  ],
-  "presets": [
-    {
-      "name": "Gift With Purchase",
-      "settings": {
-        "enable_gwp": true,
-        "cart_threshold": 500,
-        "popup_title": "🎉 Congratulations! You unlocked a free gift."
-      }
+      "id": "HovbutTextCol",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
     }
   ]
 }
