@@ -210,13 +210,12 @@
 
 <script> 
   // Configuration from section settings
-  const gwpConfig = {
-    cartThreshold: {{ section.settings.cart_threshold | default: 500 }}, // Direct peso value
-    delayTime: {{ section.settings.delay_time | default: 2500 }},
-    requireUserInteraction: {{ section.settings.require_user_interaction | default: true | json }},
-    enableConfetti: {{ section.settings.enable_confetti | default: true | json }}
-  };
-
+    const gwpConfig = {
+      cartThreshold: {{ section.settings.price_trigger }},
+      delayTime: {{ section.settings.delay_time | default: 2500 }},
+      requireUserInteraction: {{ section.settings.require_user_interaction | json }},
+      enableConfetti: {{ section.settings.confetti | json }}
+    };
   console.log('GWP Config:', gwpConfig);
 
   // Function to fetch the cart data from Shopify
