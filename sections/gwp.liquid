@@ -15,7 +15,7 @@
 
   {% if section.settings.pDetails != blank %}
    <div class="gwp-product-details">
-        <p class="gwp-product-title">{{ gift_product.title }}</p>
+        <p class="gwp-pt">{{ gift_product.title }}</p>
         {% if gift_product.featured_image %}
           <img loading="lazy" 
                class="gwp-gift-img" 
@@ -24,7 +24,7 @@
                width="200"
                height="auto">
         {% endif %}
-        <div class="gwp-price-container">
+        <div class="gwp-pr">
           <p class="gwp-strike">{{ gift_variant.price | money }}</p>
           <p class="gwp-free">Free</p>
         </div>
@@ -417,11 +417,6 @@
       "id": "variantId",
       "label": "Gift Variant ID",
       "info": "Specify a variant ID (optional)."
-    },
-    {
-      "type": "image_picker",
-      "id": "giftImg",
-      "label": "Gift Image"
     },
     {
       "type": "checkbox",
