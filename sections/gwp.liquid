@@ -48,19 +48,19 @@
       {% endif %}
     </form>
   </div>
-  
+
 <style>
-  :root {
-    --gwp-popup-bg: {{ section.settings.popup_bg_color | default: '#ffffff' }};
-    --gwp-text-color: {{ section.settings.popup_text_color | default: '#000000' }};
-    --gwp-button-bg: {{ section.settings.button_bg_color | default: '#000000' }};
-    --gwp-button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
-    --gwp-button-hover-bg: {{ section.settings.button_hover_bg | default: '#ffffff' }};
-    --gwp-button-hover-text: {{ section.settings.button_hover_text | default: '#000000' }};
-    --gwp-overlay-bg: {{ section.settings.overlay_color | default: 'rgba(0, 0, 0, 0.5)' }};
-    --gwp-border-radius: {{ section.settings.popup_border_radius | default: 5 }}px;
-    --gwp-min-width: {{ section.settings.popup_min_width | default: 225 }}px;
-  }
+    :root {
+      --gwp-popup-bg: {{ section.settings.popup_bg_color | default: '#ffffff' }};
+      --gwp-text-color: {{ section.settings.popup_text_color | default: '#000000' }};
+      --gwp-button-bg: {{ section.settings.button_bg_color | default: '#000000' }};
+      --gwp-button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+      --gwp-button-hover-bg: {{ section.settings.button_hover_bg | default: '#ffffff' }};
+      --gwp-button-hover-text: {{ section.settings.button_hover_text | default: '#000000' }};
+      --gwp-overlay-bg: {{ section.settings.overlay_color | default: 'rgba(0, 0, 0, 0.5)' }};
+      --gwp-border-radius: {{ section.settings.popup_border_radius | default: 5 }}px;
+      --gwp-min-width: {{ section.settings.popup_min_width | default: 225 }}px;
+    }
 
   /* Styles for overlay */
   .gwp-overlay {
