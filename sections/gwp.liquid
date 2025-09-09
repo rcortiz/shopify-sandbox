@@ -10,11 +10,10 @@
   </span>
   
   {% assign gift_product = section.settings.gift_product %}
-  {% assign gift_variant = gift_product.selected_or_first_available_variant %}
   
   <img loading="lazy" 
        class="gwp-gift-img" 
-       src="{{ gift_variant.featured_image | default: gift_product.featured_image | image_url: width: 200 }}" 
+       src="{{ gift_product.featured_image | default: 'placeholder.png' | image_url: width: 200 }}"
        alt="{{ gift_product.title }}">
 
   <p class="gwp-pt">{{ gift_product.title }}</p>
@@ -206,27 +205,18 @@
     margin: 10px 0;
     line-height: 1.4;
   }
-
-  label.variantL {
-    display: block;
-  }
-
-  .variantS {
-    width: 100%;
-    max-width: 185px;
-    height: 28px;
-    margin-bottom: 6px;
-  }
 </style>
 
 <script> 
   // Configuration from section settings
   const gwpConfig = {
-    cartThreshold: {{ section.settings.cart_threshold | default: 50000 }},
+    cartThreshold: {{ section.settings.cart_threshold | default: 500 }}, // Direct peso value
     delayTime: {{ section.settings.delay_time | default: 2500 }},
     requireUserInteraction: {{ section.settings.require_user_interaction | default: true | json }},
     enableConfetti: {{ section.settings.enable_confetti | default: true | json }}
   };
+
+  console.log('GWP Config:', gwpConfig);
 
   // Function to fetch the cart data from Shopify
   function fetchCartData(callback) {
@@ -243,17 +233,19 @@
     return cartData.items.some(item => item.final_line_price === 0);
   }
 
-  // Function to calculate the total value of items in the cart
+  // Function to calculate the total value of items in the cart (in pesos)
   function calculateCartValue(cartData) {
-    let totalValue = 0;
-    cartData.items.forEach(item => {
-      totalValue += item.price * item.quantity;
-    });
-    return totalValue;
+   let totalValue = 0;
+  cartData.items.forEach(item => {
+    totalValue += item.price * item.quantity;
+  });
+  // Return value directly as pesos (no division by 100)
+  return totalValue;
   }
 
   // Function to show the popup
   function showPopup() {
+    console.log('Showing GWP popup');
     const overlay = document.getElementById('gwp-overlay');
     const popup = document.getElementById('gwp-popup');
     if (overlay && popup) {
@@ -264,6 +256,7 @@
 
   // Function to close the popup
   function closePopup() {
+    console.log('Closing GWP popup');
     const overlay = document.getElementById('gwp-overlay');
     const popup = document.getElementById('gwp-popup');
     if (overlay && popup) {
@@ -280,6 +273,8 @@
 
   // Function to check the cart value and show popup if necessary
   function checkCartValue() {
+    console.log('Checking GWP cart value...');
+    
     fetchCartData(cartData => {
       console.log('GWP Cart Data:', cartData);
       
@@ -287,20 +282,28 @@
       const hasZeroPrice = hasZeroPriceProduct(cartData);
       const popupShown = wasPopupShown();
 
-      console.log('GWP Cart Value:', cartValue);
+      console.log('GWP Cart Value (Pesos):', cartValue);
       console.log('GWP Has Zero Price Product:', hasZeroPrice);
       console.log('GWP Popup Already Shown:', popupShown);
-      console.log('GWP Threshold:', gwpConfig.cartThreshold);
+      console.log('GWP Threshold (Pesos):', gwpConfig.cartThreshold);
 
       if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
+        console.log('GWP conditions met, showing popup');
         showPopup();
         sessionStorage.setItem('gwp-popup-shown', 'true');
+      } else {
+        console.log('GWP conditions not met:', {
+          thresholdMet: cartValue >= gwpConfig.cartThreshold,
+          notShownBefore: !popupShown,
+          noZeroPriceItems: !hasZeroPrice
+        });
       }
     });
   }
 
   // Function to handle user interactions
   function handleUserInteraction() {
+    console.log('GWP user interaction detected');
     setTimeout(checkCartValue, gwpConfig.delayTime);
     // Remove listeners after first interaction
     document.removeEventListener('click', handleUserInteraction);
@@ -310,12 +313,16 @@
 
   // Initialize GWP
   function initGWP() {
+    console.log('Initializing GWP...');
+    
     if (gwpConfig.requireUserInteraction) {
+      console.log('GWP waiting for user interaction');
       // Listen for user interactions
       document.addEventListener('click', handleUserInteraction);
       document.addEventListener('keypress', handleUserInteraction);
       document.addEventListener('scroll', handleUserInteraction);
     } else {
+      console.log('GWP checking immediately');
       // Check immediately if user interaction is not required
       setTimeout(checkCartValue, gwpConfig.delayTime);
     }
@@ -374,9 +381,9 @@
     {
       "type": "number",
       "id": "cart_threshold",
-      "label": "Cart Threshold (in cents)",
-      "default": 50000,
-      "info": "Minimum cart value to trigger GWP popup (e.g., 50000 = $500.00)"
+      "label": "Cart Threshold (in pesos)",
+      "default": 500,
+      "info": "Minimum cart value to trigger GWP popup (e.g., 500 = ₱500.00)"
     },
     {
       "type": "number",
@@ -395,16 +402,10 @@
       "label": "Gift Product"
     },
     {
-      "type": "variant_picker",
-      "id": "gift_variant",
-      "label": "Gift Variant",
-      "product": "gift_product"
-    },
-    {
       "type": "text",
       "id": "gift_original_price",
       "label": "Original Price Display",
-      "default": "$9.95",
+      "default": "₱100.00",
       "info": "Price to show as crossed out"
     },
     {
@@ -538,7 +539,7 @@
       "name": "Gift With Purchase",
       "settings": {
         "enable_gwp": true,
-        "cart_threshold": 50000,
+        "cart_threshold": 500,
         "popup_title": "🎉 Congratulations! You unlocked a free gift."
       }
     }
