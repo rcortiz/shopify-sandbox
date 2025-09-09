@@ -10,8 +10,8 @@
       <p>{{ section.settings.text }}</p>
     </span>
 
-    {% assign gift_product = section.settings.free_item %}
-    {% assign gift_variant = all_products[section.settings.free_item].first_available_variant %}
+    {% assign gift_product = all_products[section.settings.free_item] %}
+    {% assign gift_variant = gift_product.first_available_variant %}
 
     {% if section.settings.giftImg != blank %}
       <img loading="lazy" class="gwp-gift-img" src="{{ section.settings.giftImg | image_url: width: 200 }}">
