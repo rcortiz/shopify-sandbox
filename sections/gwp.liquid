@@ -13,7 +13,7 @@
     {% assign gift_product = all_products[section.settings.free_item] %}
     {% assign gift_variant = gift_product.first_available_variant %}
 
-    {% if section.settings.giftImg != blank %}
+  {% if section.settings.pDetails != blank %}
    <div class="gwp-product-details">
         <p class="gwp-product-title">{{ gift_product.title }}</p>
         {% if gift_product.featured_image %}
