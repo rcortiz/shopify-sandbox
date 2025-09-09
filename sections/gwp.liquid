@@ -1,217 +1,547 @@
-<div id="shopify-section-gwp" class="shopify-section">
+{% if section.settings.enable_gwp and section.settings.gift_product %}
 
-<script defer="" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
-<div class="gwp-overlay" id="gwp-overlay" style="display: block;"></div>
-<div class="gwp-popup" id="gwp-popup" style="display: block;">
-<span class="gwp-popup-close" onclick="closePopup()">✕</span>
-<span class="gwp-title"><p>🎉 Congratulations! You unlocked a free gift.</p></span>
+<div class="gwp-overlay" id="gwp-overlay" style="display: none;"></div>
+<div class="gwp-popup" id="gwp-popup" style="display: none;">
+  <span class="gwp-popup-close" onclick="closePopup()">✕</span>
+  <span class="gwp-title">
+    <p>{{ section.settings.popup_title }}</p>
+  </span>
   
-<img loading="lazy" class="gwp-gift-img" src="//shopioso-codes.myshopify.com/cdn/shop/files/snowboard_wax_small.png?v=1720685035" alt="Selling Plans Ski Wax">
+  {% assign gift_product = section.settings.gift_product %}
+  {% assign gift_variant = section.settings.gift_variant | default: gift_product.selected_or_first_available_variant %}
+  
+  <img loading="lazy" 
+       class="gwp-gift-img" 
+       src="{{ gift_variant.featured_image | default: gift_product.featured_image | image_url: width: 200 }}" 
+       alt="{{ gift_product.title }}">
 
+  <p class="gwp-pt">{{ gift_product.title }}</p>
+  
+  <span class="gwp-price">
+    <p class="gwp-pr gwp-strike gwp-price">{{ section.settings.gift_original_price }}</p>
+    <p class="gwp-pr gwp-free">Free</p>
+  </span>
 
-<p class="gwp-pt">Selling Plans Ski Wax</p>
-<span class="gwp-price"><p class="gwp-pr gwp-strike gwp-price">$9.95</p><p class="gwp-pr gwp-free">Free</p></span>
+  {% if section.settings.popup_description != blank %}
+    <p class="gwp-description">{{ section.settings.popup_description }}</p>
+  {% endif %}
 
-
- <form class="GWPform" method="post" action="/cart/add">
- 
- <input name="id" value="45246212505738" type="hidden">
- 
- <input id="submitbutton" onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();" class="gwp-button" name="add" value="REEDEM FREE GIFT" type="submit">
-</form>
+  <form class="GWPform" method="post" action="/cart/add">
+    <input name="id" value="{{ gift_variant.id }}" type="hidden">
+    
+    {% if section.settings.enable_confetti %}
+      <input id="submitbutton" 
+             onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();" 
+             class="gwp-button" 
+             name="add" 
+             value="{{ section.settings.button_text }}" 
+             type="submit">
+    {% else %}
+      <input id="submitbutton" 
+             onclick="this.disabled = true; this.form.submit();" 
+             class="gwp-button" 
+             name="add" 
+             value="{{ section.settings.button_text }}" 
+             type="submit">
+    {% endif %}
+  </form>
 </div>
 
 <style>
-/* Styles for overlay */
-    .gwp-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9999;
-    }
+  :root {
+    --gwp-popup-bg: {{ section.settings.popup_bg_color | default: '#ffffff' }};
+    --gwp-text-color: {{ section.settings.popup_text_color | default: '#000000' }};
+    --gwp-button-bg: {{ section.settings.button_bg_color | default: '#000000' }};
+    --gwp-button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --gwp-button-hover-bg: {{ section.settings.button_hover_bg | default: '#ffffff' }};
+    --gwp-button-hover-text: {{ section.settings.button_hover_text | default: '#000000' }};
+    --gwp-overlay-bg: {{ section.settings.overlay_color | default: 'rgba(0, 0, 0, 0.5)' }};
+    --gwp-border-radius: {{ section.settings.popup_border_radius | default: 5 }}px;
+    --gwp-min-width: {{ section.settings.popup_min_width | default: 225 }}px;
+  }
 
-    /* Styles for popup */
-    .gwp-popup {
-        display: none;
-        position: fixed;
+  /* Styles for overlay */
+  .gwp-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--gwp-overlay-bg);
+    z-index: 9999;
+  }
+
+  /* Styles for popup */
+  .gwp-popup {
+    display: none;
+    position: fixed;
+    {% case section.settings.popup_position %}
+      {% when 'top' %}
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      {% when 'bottom' %}
+        bottom: 20%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      {% else %}
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        z-index: 10000;
-      min-width: 225px;
-    }
-
-    /* Style for close button */
-    .gwp-popup-close {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        cursor: pointer;
-    }
-
-    input.gwp-button {
-      display: block;
-      margin: 0 auto;
-      font-size: 15px;
-      cursor: pointer;
-      background-color: #000000;
-      color: #ffffff;
-      padding: 7px 17px;
-      border: 1px solid #000000;
-      transition: all .2s ease-out;
-      border-radius: 3px;
+    {% endcase %}
+    background-color: var(--gwp-popup-bg);
+    padding: 20px;
+    border-radius: var(--gwp-border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    min-width: var(--gwp-min-width);
   }
 
-      input.gwp-button:hover {
-          color: #000000;
-          background-color: #ffffff;
-          border: 1px solid #000000;
-      }
+  /* Style for close button */
+  .gwp-popup-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: var(--gwp-text-color);
+    font-size: 18px;
+  }
 
-   .gwp-title p {
+  input.gwp-button {
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: var(--gwp-button-bg);
+    color: var(--gwp-button-text);
+    padding: 7px 17px;
+    border: 1px solid var(--gwp-button-bg);
+    transition: all .2s ease-out;
+    border-radius: 3px;
+  }
+
+  input.gwp-button:hover {
+    color: var(--gwp-button-hover-text);
+    background-color: var(--gwp-button-hover-bg);
+    border: 1px solid var(--gwp-button-bg);
+  }
+
+  input.gwp-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .gwp-title p {
     text-align: center;
     line-height: 1.2;
-    color: black;
+    color: var(--gwp-text-color);
     font-size: 16px;
+    margin: 0 0 15px 0;
   }
- 
- @media only screen and (max-width: 600px) {
-     .gwp-title p {
-   font-size: 14px;
+
+  @media only screen and (max-width: 600px) {
+    .gwp-title p {
+      font-size: 14px;
+    }
   }
- }
- 
-img.gwp-gift-img {
-  width: 81px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-p.gwp-pt {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-  text-transform: uppercase;
-  color: black;
-  padding-top:8px;
-  line-height: 1.3;
-}
+
+  img.gwp-gift-img {
+    width: 81px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  p.gwp-pt {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--gwp-text-color);
+    padding-top: 8px;
+    line-height: 1.3;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
   p.gwp-pr {
-  display: block;
-  text-transform: uppercase;
-  color: black;
-  margin:0;
-}
-.gwp-strike {
-  padding-top:0px!important;
-  text-decoration: line-through;
-}
-span.gwp-price {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  column-gap: 10px;
-  margin-bottom:5px;
-}
-.gwp-free {
- font-weight:600;
-}
- .GWPform {
-   text-align:center;
- }
- label.variantL {
-   display: block;
-}
- .variantS {
-   width: 100%;
-   max-width: 185px;
-   height: 28px;
-   margin-bottom: 6px;
-}
-  </style>
+    display: block;
+    text-transform: uppercase;
+    color: var(--gwp-text-color);
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .gwp-strike {
+    padding-top: 0px!important;
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  span.gwp-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    column-gap: 10px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+  }
+
+  .gwp-free {
+    font-weight: 600;
+    color: #28a745;
+  }
+
+  .GWPform {
+    text-align: center;
+  }
+
+  .gwp-description {
+    text-align: center;
+    font-size: 13px;
+    color: var(--gwp-text-color);
+    margin: 10px 0;
+    line-height: 1.4;
+  }
+
+  label.variantL {
+    display: block;
+  }
+
+  .variantS {
+    width: 100%;
+    max-width: 185px;
+    height: 28px;
+    margin-bottom: 6px;
+  }
+</style>
 
 <script> 
-// Function to fetch the cart data from Shopify
-function fetchCartData(callback) {
-  fetch('/cart.js')
+  // Configuration from section settings
+  const gwpConfig = {
+    cartThreshold: {{ section.settings.cart_threshold | default: 50000 }},
+    delayTime: {{ section.settings.delay_time | default: 2500 }},
+    requireUserInteraction: {{ section.settings.require_user_interaction | default: true | json }},
+    enableConfetti: {{ section.settings.enable_confetti | default: true | json }}
+  };
+
+  // Function to fetch the cart data from Shopify
+  function fetchCartData(callback) {
+    fetch('/cart.js')
       .then(response => response.json())
       .then(data => {
-          callback(data);
+        callback(data);
       })
       .catch(error => console.error('Error fetching cart data:', error));
-}
+  }
 
-// Function to check if any product in the cart has a final line price of 0
-function hasZeroPriceProduct(cartData) {
-  return cartData.items.some(item => item.final_line_price === 0);
-}
+  // Function to check if any product in the cart has a final line price of 0
+  function hasZeroPriceProduct(cartData) {
+    return cartData.items.some(item => item.final_line_price === 0);
+  }
 
-// Function to calculate the total value of items in the cart
-function calculateCartValue(cartData) {
-  let totalValue = 0;
-  cartData.items.forEach(item => {
+  // Function to calculate the total value of items in the cart
+  function calculateCartValue(cartData) {
+    let totalValue = 0;
+    cartData.items.forEach(item => {
       totalValue += item.price * item.quantity;
-  });
-  return totalValue.toFixed(2);
-}
+    });
+    return totalValue;
+  }
 
-// Function to show the popup with cart value
-function showPopup(cartValue) {
-  const overlay = document.getElementById('gwp-overlay');
-  const popup = document.getElementById('gwp-popup');
-  overlay.style.display = 'block';
-  popup.style.display = 'block';
-}
+  // Function to show the popup
+  function showPopup() {
+    const overlay = document.getElementById('gwp-overlay');
+    const popup = document.getElementById('gwp-popup');
+    if (overlay && popup) {
+      overlay.style.display = 'block';
+      popup.style.display = 'block';
+    }
+  }
 
-// Function to close the popup
-function closePopup() {
-  const overlay = document.getElementById('gwp-overlay');
-  const popup = document.getElementById('gwp-popup');
-  overlay.style.display = 'none';
-  popup.style.display = 'none';
-  sessionStorage.setItem('popupShown', 'true'); // Update sessionStorage
-}
+  // Function to close the popup
+  function closePopup() {
+    const overlay = document.getElementById('gwp-overlay');
+    const popup = document.getElementById('gwp-popup');
+    if (overlay && popup) {
+      overlay.style.display = 'none';
+      popup.style.display = 'none';
+    }
+    sessionStorage.setItem('gwp-popup-shown', 'true');
+  }
 
-// Function to check the cart value and show popup if necessary
-function checkCartValue() {
-  fetchCartData(cartData => {
-      console.log('Cart Data:', cartData);
+  // Function to check if popup was already shown
+  function wasPopupShown() {
+    return sessionStorage.getItem('gwp-popup-shown') === 'true';
+  }
+
+  // Function to check the cart value and show popup if necessary
+  function checkCartValue() {
+    fetchCartData(cartData => {
+      console.log('GWP Cart Data:', cartData);
+      
       const cartValue = calculateCartValue(cartData);
-      console.log('Cart Value:', cartValue);
       const hasZeroPrice = hasZeroPriceProduct(cartData);
-      console.log('Has Zero Price Product:', hasZeroPrice);
+      const popupShown = wasPopupShown();
 
-      const popupShown = sessionStorage.getItem('popupShown') === 'true'; // Check sessionStorage for popup state
+      console.log('GWP Cart Value:', cartValue);
+      console.log('GWP Has Zero Price Product:', hasZeroPrice);
+      console.log('GWP Popup Already Shown:', popupShown);
+      console.log('GWP Threshold:', gwpConfig.cartThreshold);
 
-      if (parseFloat(cartValue) >= 50000 && !popupShown && !hasZeroPrice) {
-          showPopup(cartValue);
-          sessionStorage.setItem('popupShown', 'true'); // Update sessionStorage
-      } else if (parseFloat(cartValue) < 50000 || popupShown || hasZeroPrice) {
-         // closePopup();
+      if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
+        showPopup();
+        sessionStorage.setItem('gwp-popup-shown', 'true');
       }
+    });
+  }
+
+  // Function to handle user interactions
+  function handleUserInteraction() {
+    setTimeout(checkCartValue, gwpConfig.delayTime);
+    // Remove listeners after first interaction
+    document.removeEventListener('click', handleUserInteraction);
+    document.removeEventListener('keypress', handleUserInteraction);
+    document.removeEventListener('scroll', handleUserInteraction);
+  }
+
+  // Initialize GWP
+  function initGWP() {
+    if (gwpConfig.requireUserInteraction) {
+      // Listen for user interactions
+      document.addEventListener('click', handleUserInteraction);
+      document.addEventListener('keypress', handleUserInteraction);
+      document.addEventListener('scroll', handleUserInteraction);
+    } else {
+      // Check immediately if user interaction is not required
+      setTimeout(checkCartValue, gwpConfig.delayTime);
+    }
+
+    // Also check when cart is updated (useful for single page apps)
+    document.addEventListener('cart:updated', checkCartValue);
+    
+    // Check on page visibility change (when user returns to tab)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        setTimeout(checkCartValue, 1000);
+      }
+    });
+  }
+
+  // Start when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGWP);
+  } else {
+    initGWP();
+  }
+
+  // Close popup when clicking overlay
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'gwp-overlay') {
+      closePopup();
+    }
   });
+
+  // Close popup with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closePopup();
+    }
+  });
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Gift With Purchase",
+  "tag": "section",
+  "class": "gwp-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gwp",
+      "label": "Enable Gift With Purchase",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "cart_threshold",
+      "label": "Cart Threshold (in cents)",
+      "default": 50000,
+      "info": "Minimum cart value to trigger GWP popup (e.g., 50000 = $500.00)"
+    },
+    {
+      "type": "number",
+      "id": "delay_time",
+      "label": "Popup Delay (milliseconds)",
+      "default": 2500,
+      "info": "Delay before showing popup after user interaction"
+    },
+    {
+      "type": "header",
+      "content": "Gift Product Settings"
+    },
+    {
+      "type": "product",
+      "id": "gift_product",
+      "label": "Gift Product"
+    },
+    {
+      "type": "variant_picker",
+      "id": "gift_variant",
+      "label": "Gift Variant",
+      "product": "gift_product"
+    },
+    {
+      "type": "text",
+      "id": "gift_original_price",
+      "label": "Original Price Display",
+      "default": "$9.95",
+      "info": "Price to show as crossed out"
+    },
+    {
+      "type": "header",
+      "content": "Popup Content"
+    },
+    {
+      "type": "text",
+      "id": "popup_title",
+      "label": "Popup Title",
+      "default": "🎉 Congratulations! You unlocked a free gift."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "REDEEM FREE GIFT"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_description",
+      "label": "Additional Description",
+      "placeholder": "Optional description text"
+    },
+    {
+      "type": "header",
+      "content": "Popup Styling"
+    },
+    {
+      "type": "color",
+      "id": "popup_bg_color",
+      "label": "Popup Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "popup_text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text",
+      "label": "Button Hover Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Background Color",
+      "default": "rgba(0, 0, 0, 0.5)"
+    },
+    {
+      "type": "header",
+      "content": "Advanced Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_confetti",
+      "label": "Enable Confetti Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "require_user_interaction",
+      "label": "Require User Interaction",
+      "default": true,
+      "info": "Only show popup after user clicks, scrolls, or presses a key"
+    },
+    {
+      "type": "select",
+      "id": "popup_position",
+      "label": "Popup Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "popup_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "popup_min_width",
+      "min": 200,
+      "max": 500,
+      "step": 25,
+      "unit": "px",
+      "label": "Minimum Width",
+      "default": 225
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift With Purchase",
+      "settings": {
+        "enable_gwp": true,
+        "cart_threshold": 50000,
+        "popup_title": "🎉 Congratulations! You unlocked a free gift."
+      }
+    }
+  ]
 }
-
-// Listen for user interactions
-document.addEventListener('click', handleUserInteraction);
-document.addEventListener('keypress', handleUserInteraction);
-
-// Function to handle user interactions
-function handleUserInteraction() {
-  // Check cart value after 2.5 seconds
-  setTimeout(checkCartValue, 2500);
-}
-
-// Initial check on page load
-checkCartValue();
-</script> 
-</div>
+{% endschema %}
