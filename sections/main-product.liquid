@@ -440,6 +440,10 @@
                     </volume-pricing>
                   {%- endif -%}
                 </div>
+              {%- when 'gwp_embed' -%}
+                <div {{ block.shopify_attributes }}>
+                  {% section 'gwp-embed' %}
+                </div>
               {%- when 'popup' -%}
                 <modal-opener
                   class="product-popup-modal__opener quick-add-hidden"
@@ -848,6 +852,11 @@
     {
       "type": "quantity_selector",
       "name": "t:sections.main-product.blocks.quantity_selector.name",
+      "limit": 1
+    },
+    {
+      "type": "gwp_embed",
+      "name": "GWP Embed",
       "limit": 1
     },
     {
