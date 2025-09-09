@@ -152,7 +152,7 @@
           "button_text": "REDEEM FREE GIFT",
           "confetti": true,
           "oncepersession": true,
-          "delay_time": 2500,
+          "delay_time": 500,
           "require_user_interaction": true,
           "popup_position": "center",
           "popup_bg_color": "#ffffff",
