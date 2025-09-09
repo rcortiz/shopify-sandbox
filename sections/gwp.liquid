@@ -277,12 +277,12 @@
       overlay.style.display = 'none';
       popup.style.display = 'none';
     }
-    {% comment %} sessionStorage.setItem('gwp-popup-shown', 'true'); {% endcomment %}
+    sessionStorage.setItem('gwp-popup-shown', 'true');
   }
 
   // Function to check if popup was already shown
   function wasPopupShown() {
-    {% comment %} return sessionStorage.getItem('gwp-popup-shown') === 'true'; {% endcomment %}
+    return sessionStorage.getItem('gwp-popup-shown') === 'true';
      return false;
   }
 
@@ -305,7 +305,7 @@
       if (cartValue >= gwpConfig.cartThreshold && !popupShown && !hasZeroPrice) {
         console.log('GWP conditions met, showing popup');
         showPopup();
-        {% comment %} sessionStorage.setItem('gwp-popup-shown', 'true'); {% endcomment %}
+        sessionStorage.setItem('gwp-popup-shown', 'true');
       } else {
         console.log('GWP conditions not met:', {
           thresholdMet: cartValue >= gwpConfig.cartThreshold,
