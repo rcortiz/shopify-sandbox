@@ -10,7 +10,7 @@
   </span>
   
   {% assign gift_product = section.settings.gift_product %}
-  {% assign gift_variant = section.settings.gift_variant | default: gift_product.selected_or_first_available_variant %}
+  {% assign gift_variant = gift_product.selected_or_first_available_variant %}
   
   <img loading="lazy" 
        class="gwp-gift-img" 
