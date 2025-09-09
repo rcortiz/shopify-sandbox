@@ -216,6 +216,7 @@
       requireUserInteraction: {{ section.settings.require_user_interaction | json }},
       enableConfetti: {{ section.settings.confetti | json }}
     };
+
   console.log('GWP Config:', gwpConfig);
 
   // Function to fetch the cart data from Shopify
@@ -377,69 +378,32 @@
       "type": "range",
       "id": "price_trigger",
       "min": 0,
-      "max": 500,
-      "step": 5,
+      "max": 5000,
+      "step": 50,
       "unit": "₱",
-      "label": "Price",
-      "default": 0,
-      "info": "The store currency applies. If the value is 0 the popup is disabled."
+      "label": "Cart Value Trigger",
+      "default": 0
     },
     {
       "type": "text",
       "id": "tagToTrigger",
       "label": "Product Tag to Trigger Popup",
-      "info": "Specify the tag that products must have to trigger the gwp popup. For example, if you set this to 'gwp-eligible', any product tagged with 'gwp-eligible' will trigger the popup when the cart value meets the specified price trigger."
+      "info": "If set, only products with this tag will trigger the popup."
     },
     {
       "type": "header",
-      "content": "Gift Item",
+      "content": "Gift Item"
     },
     {
       "type": "product",
       "id": "free_item",
-      "label": "product"
-    },
-    {
-      "type": "checkbox",
-      "id": "vSelector",
-      "default": false,
-      "label": "Show a variant selector",
-      "info": "Let customers select their gift if the product has multiple variants."
+      "label": "Gift Product"
     },
     {
       "type": "text",
       "id": "variantId",
-      "label": "Specify a variant ID",
-      "info": "Add a specific variant ID to use as a gift. Use only if you want to give as a gift a specific variant otherwise leave empty."
-    },
-    {
-      "type": "header",
-      "content": "Popup settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "confetti",
-      "label": "Show confetti on button click?",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "text",
-      "label": "Popup Text",
-      "default": "<p> Congratulations! You unlocked a free gift.</p>"
-    },
-    {
-      "type": "text",
-      "id": "buttonText",
-      "label": "Button Text",
-      "default": "REDEEM FREE GIFT"
-    },
-    {
-      "type": "checkbox",
-      "id": "oncepersession",
-      "label": "Show popup once per session?",
-      "info": "If false, the popup will show again in the same session once the conditions are met even if the customer has closed the popup once.",
-      "default": true
+      "label": "Gift Variant ID",
+      "info": "Specify a variant ID (optional)."
     },
     {
       "type": "image_picker",
@@ -449,33 +413,137 @@
     {
       "type": "checkbox",
       "id": "pDetails",
-      "label": "Show product details",
-      "info": "It shows the product image, title and crossed out price",
+      "label": "Show Product Details",
       "default": true
     },
     {
+      "type": "text",
+      "id": "gift_original_price",
+      "label": "Gift Original Price",
+      "default": "₱0.00"
+    },
+    {
+      "type": "header",
+      "content": "Popup Content"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Popup Text",
+      "default": "🎉 Congratulations! You unlocked a free gift."
+    },
+    {
+      "type": "text",
+      "id": "popup_description",
+      "label": "Popup Description",
+      "default": "This gift will be added to your cart for free once you redeem."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "REDEEM FREE GIFT"
+    },
+    {
+      "type": "checkbox",
+      "id": "confetti",
+      "label": "Show Confetti on Redeem",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "oncepersession",
+      "label": "Show Once Per Session",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay_time",
+      "min": 0,
+      "max": 8000,
+      "step": 500,
+      "unit": "ms",
+      "label": "Popup Delay",
+      "default": 2500
+    },
+    {
+      "type": "checkbox",
+      "id": "require_user_interaction",
+      "label": "Require User Interaction First?",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "popup_position",
+      "label": "Popup Position",
+      "default": "center",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    },
+    {
       "type": "color",
-      "id": "butCol",
+      "id": "popup_bg_color",
+      "label": "Popup Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "popup_text_color",
+      "label": "Popup Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
       "label": "Button Background Color",
       "default": "#000000"
     },
-        {
+    {
       "type": "color",
-      "id": "butTextCol",
+      "id": "button_text_color",
       "label": "Button Text Color",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "HovbutCol",
+      "id": "button_hover_bg",
       "label": "Button Hover Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text",
+      "label": "Button Hover Text Color",
       "default": "#000000"
     },
     {
       "type": "color",
-      "id": "HovbutTextCol",
-      "label": "Button Hover Text Color",
-      "default": "#ffffff"
+      "id": "overlay_color",
+      "label": "Overlay Background Color",
+      "default": "rgba(0,0,0,0.5)"
+    },
+    {
+      "type": "range",
+      "id": "popup_border_radius",
+      "label": "Popup Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "popup_min_width",
+      "label": "Popup Min Width",
+      "min": 150,
+      "max": 600,
+      "step": 25,
+      "unit": "px",
+      "default": 225
     }
   ]
 }
