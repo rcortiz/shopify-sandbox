@@ -144,11 +144,9 @@
         "settings": {
           "price_trigger": 500,
           "tagToTrigger": "",
-          "free_item": "cloak-of-idle-glamour",
+          "free_item": "chronoloom-bracelet",
           "variantId": "",
-          "giftImg": "shopify://shop_images/e9959a30-97a4-41bc-9d4a-b40ce44078c7.jpg",
           "pDetails": true,
-          "gift_original_price": "₱100.00",
           "text": "🎉 Congratulations! You unlocked a free gift.",
           "popup_description": "",
           "button_text": "REDEEM FREE GIFT",
