@@ -138,6 +138,31 @@
         "settings": {
           "color_scheme": "scheme-1"
         }
+      },
+      "gwp": {
+        "type": "gwp",
+        "settings": {
+          "enable_gwp": true,
+          "cart_threshold": 500,
+          "delay_time": 2500,
+          "gift_product": "chronoloom-bracelet",
+          "gift_original_price": "₱100.00",
+          "popup_title": "🎉 Congratulations! You unlocked a free gift.",
+          "button_text": "REDEEM FREE GIFT",
+          "popup_description": "",
+          "popup_bg_color": "#ffffff",
+          "popup_text_color": "#000000",
+          "button_bg_color": "#000000",
+          "button_text_color": "#ffffff",
+          "button_hover_bg": "#ffffff",
+          "button_hover_text": "#000000",
+          "overlay_color": "#00000080",
+          "enable_confetti": true,
+          "require_user_interaction": true,
+          "popup_position": "center",
+          "popup_border_radius": 5,
+          "popup_min_width": 225
+        }
       }
     },
     "content_for_index": [],
