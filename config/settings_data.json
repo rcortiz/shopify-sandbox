@@ -144,7 +144,7 @@
         "settings": {
           "price_trigger": 500,
           "tagToTrigger": "",
-          "free_item": "",
+          "free_item": "chronoloom-bracelet",
           "variantId": "",
           "pDetails": true,
           "gift_original_price": "₱100.00",
