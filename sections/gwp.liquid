@@ -37,21 +37,12 @@
 
     <form class="GWPform" method="post" action="/cart/add">
       <input name="id" value="{{ section.settings.variantId | default: gift_variant.id }}" type="hidden">
-      {% if section.settings.confetti %}
         <input id="submitbutton"
                onclick="confetti({zIndex:99999});this.disabled = true; this.form.submit();"
                class="gwp-button"
                name="add"
                value="{{ section.settings.button_text }}"
                type="submit">
-      {% else %}
-        <input id="submitbutton"
-               onclick="this.disabled = true; this.form.submit();"
-               class="gwp-button"
-               name="add"
-               value="{{ section.settings.button_text }}"
-               type="submit">
-      {% endif %}
     </form>
   </div>
 
