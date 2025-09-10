@@ -12,6 +12,19 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "gwp_embed_zHCKdj": {
+          "type": "gwp_embed",
+          "settings": {
+            "gwp_item": "chronoloom-bracelet",
+            "gwp_discount_code": "FREEGIFT",
+            "gwp_notes": "*Discount applied at checkout",
+            "button_text": "Add Free Gift",
+            "confetti": false,
+            "pDetails": true,
+            "popup_description": "",
+            "variantId": ""
+          }
+        },
         "vendor": {
           "type": "text",
           "settings": {
@@ -57,6 +70,7 @@
         }
       },
       "block_order": [
+        "gwp_embed_zHCKdj",
         "vendor",
         "title",
         "price",
