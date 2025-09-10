@@ -442,7 +442,7 @@
                 </div>
               {%- when 'gwp_embed' -%}
                 <div {{ block.shopify_attributes }}>
-                  {% section 'gwp-embed' %}
+                   {% render 'gwp-embed', gwp_item: section.settings.gwp_item , gwp_notes: section.settings.gwp_notes %}
                 </div>
               {%- when 'popup' -%}
                 <modal-opener
@@ -856,8 +856,63 @@
     },
     {
       "type": "gwp_embed",
-      "name": "GWP Embed",
-      "limit": 1
+      "name": "Gift With Purchase",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "GWP Contents"
+        },
+        {
+          "type": "product",
+          "id": "gwp_item",
+          "label": "Gift with Purchase Product"
+        },
+        {
+          "type": "header",
+          "content": "GWP Content"
+        },
+        {
+          "type": "text",
+          "id": "gwp_discount_code",
+          "label": "GWP Discount Code",
+          "default": "FREEGIFT"
+        },
+        {
+          "type": "text",
+          "id": "gwp_notes",
+          "label": "GWP Notes",
+          "default": "*Discount applied at checkout"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Add Free Gift"
+        },
+        {
+          "type": "checkbox",
+          "id": "confetti",
+          "label": "Enable Confetti Effect",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "pDetails",
+          "label": "Show Product Details",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "popup_description",
+          "label": "Popup Description"
+        },
+        {
+          "type": "text",
+          "id": "variantId",
+          "label": "Specific Variant ID (optional)"
+        }
+      ]
     },
     {
       "type": "variant_picker",

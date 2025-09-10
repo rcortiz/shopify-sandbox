@@ -1,0 +1,47 @@
+<div class="gwp-container">
+
+  {% assign gift_product = all_products[gwp_item] %}
+  {% comment %} {% assign gift_variant = gift_product.first_available_variant %} {% endcomment %}
+
+  <p>{{ gwp_item }}</p>
+
+  <p>
+    TEST
+  </p>
+
+  <img
+    loading="lazy"
+    class="gwp-gift-img"
+    src="{{ gift_product.featured_image | image_url: width: 200 }}"
+    alt="{{ gift_product.title }}"
+    width="200"
+    height="auto" />
+
+
+  <div class="gwp-product-details"></div>
+
+  <div class="gwp-header">
+    <p class="gwp-title">ChronoLoom Bracelet</p>
+    <p class="gwp-title">FREE GIFT</p>
+  </div>
+
+  <div class="gwp-price-details">
+    <p class="gwp-strike">100</p>
+    <p class="gwp-free">Free</p>
+  </div>
+
+</div>
+<p>{{ gwp_notes }}</p>
+
+<style>
+  .gwp-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gwp-title {}
+
+.gwp-notice {}
+
+
+</style>
