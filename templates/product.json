@@ -12,19 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "gwp_embed_zHCKdj": {
-          "type": "gwp_embed",
-          "settings": {
-            "gwp_item": "chronoloom-bracelet",
-            "gwp_discount_code": "FREEGIFT",
-            "gwp_notes": "*Discount applied at checkout",
-            "button_text": "Add Free Gift",
-            "confetti": false,
-            "pDetails": true,
-            "popup_description": "",
-            "variantId": ""
-          }
-        },
         "vendor": {
           "type": "text",
           "settings": {
@@ -70,7 +57,6 @@
         }
       },
       "block_order": [
-        "gwp_embed_zHCKdj",
         "vendor",
         "title",
         "price",
@@ -113,10 +99,26 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "1757644799e6b99ae7": {
+      "type": "apps",
+      "blocks": {
+        "bogos_io_free_gift_bundle_page_view_KUnXwY": {
+          "type": "shopify://apps/bogos-io-free-gift/blocks/bundle-page-view/0432bba6-720a-4e95-be5a-b868386f7aa6",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "bogos_io_free_gift_bundle_page_view_KUnXwY"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "1757644799e6b99ae7"
   ]
 }
