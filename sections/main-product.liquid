@@ -440,10 +440,10 @@
                     </volume-pricing>
                   {%- endif -%}
                 </div>
-              {%- when 'gwp_embed' -%}
+              {% comment %} {%- when 'gwp_embed' -%}
                 <div {{ block.shopify_attributes }}>
                    {% render 'gwp-embed', gwp_item: section.settings.gwp_item , gwp_notes: section.settings.gwp_notes %}
-                </div>
+                </div> {% endcomment %}
               {%- when 'popup' -%}
                 <modal-opener
                   class="product-popup-modal__opener quick-add-hidden"
